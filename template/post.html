@@ -1,0 +1,16 @@
+<h1>{{ post.title }}</h1>
+
+<p>{{ post.created }}</p>
+
+<div>
+{{ content | safe }}
+</div>
+
+<p>
+Tags:
+{% for tag in tags %}
+<a href="/tag/{{ tag }}">{{ tag }}</a>
+{% endfor %}
+</p>
+
+<a href="/">Back</a>

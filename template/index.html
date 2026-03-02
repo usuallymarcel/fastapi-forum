@@ -1,0 +1,15 @@
+<h1>My Blog</h1>
+
+{% for post in posts %}
+<h2>
+<a href="/post/{{ post.slug }}">
+{{ post.title }}
+</a>
+</h2>
+
+<p>{{ post.created }}</p>
+
+<hr>
+{% endfor %}
+
+<a href="/?page={{ page + 1 }}">Next Page</a>
