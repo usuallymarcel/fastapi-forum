@@ -6,13 +6,11 @@ import markdown
 
 from database import get_db, init_db
 
-# from feedgen.feed import FeedGenerator
-
 app = FastAPI()
 
 init_db()
 
-# app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 templates = Jinja2Templates(directory="templates")
 

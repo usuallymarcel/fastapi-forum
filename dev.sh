@@ -25,4 +25,4 @@ fi
 pip install -r requirements.txt
 cd ..
 cd api/app
-fastapi run main.py
+fastapi dev main.py
