@@ -5,3 +5,13 @@ fastapi dev main.py
 /tag/python
 /rss
 /static/images/test.png
+
+
+todo:
+comments
+file location stored against post in db
+communities / tags
+styling
+navigation
+searching
+uploading
