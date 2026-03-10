@@ -4,15 +4,16 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import markdown
 
-from database import get_db, init_db
+from db.database import get_db, init_db
+
 
 app = FastAPI()
 
 init_db()
 
-app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
-templates = Jinja2Templates(directory="templates")
+templates = Jinja2Templates(directory="app/templates")
 
 POSTS_PER_PAGE = 5
 

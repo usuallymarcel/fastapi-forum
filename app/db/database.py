@@ -19,6 +19,7 @@ def init_db():
         slug TEXT UNIQUE,
         content TEXT,
         tags TEXT,
+        files TEXT,
         created DATETIME DEFAULT CURRENT_TIMESTAMP
     )
     """)
