@@ -1,5 +1,6 @@
+from schemas.posts import Post
 from db.database import get_db
-from utils.markdown_utils import render_mardown
+from utils.markdown_utils import render_markdown
 
 def get_posts(page, per_page):
     db = get_db()
@@ -22,7 +23,7 @@ def get_post_by_slug(slug: str):
         (slug,)
     ).fetchone()
 
-    html = render_mardown(post["content"])
+    html = render_markdown(post["content"])
 
     tags = post["tags"].split(",") if post["tags"] else []
 
@@ -38,3 +39,25 @@ def get_posts_by_tag(tag: str):
     ).fetchall()
 
     return posts
+
+def upload_post(post: Post):
+
+    db = get_db()
+
+    cursor = db.execute(
+        """
+        INSERT INTO posts(title, slug, content, tags)
+        VALUES(?, ?, ?, ?)
+        """,
+        (
+            post.title,
+            post.slug,
+            post.content,
+            post.tags
+        )
+    )
+
+    db.commit()
+
+    return cursor.lastrowid
+    

@@ -1,4 +1,4 @@
 import markdown
 
-def render_mardown(content: str):
+def render_markdown(content: str):
     return markdown.markdown(content)

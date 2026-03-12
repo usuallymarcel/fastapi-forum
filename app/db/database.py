@@ -15,10 +15,10 @@ def init_db():
     db.execute("""
     CREATE TABLE IF NOT EXISTS posts (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        title TEXT,
-        slug TEXT UNIQUE,
-        content TEXT,
-        tags TEXT,
+        title TEXT NOT NULL CHECK(length(title) <= 200),
+        slug TEXT NOT NULL UNIQUE CHECK(length(slug) <= 200),
+        content TEXT NOT NULL CHECK(length(content) <= 50000),
+        tags TEXT CHECK(length(tags) <= 50000),
         files TEXT,
         created DATETIME DEFAULT CURRENT_TIMESTAMP
     )
