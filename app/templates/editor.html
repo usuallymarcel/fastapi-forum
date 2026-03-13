@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>New Post</title>
+
+<style>
+body {
+    max-width: 900px;
+    margin: auto;
+    font-family: sans-serif;
+}
+
+input {
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 8px;
+}
+
+.editor-container {
+    display: flex;
+    gap: 20px;
+}
+
+textarea {
+    width: 50%;
+    height: 400px;
+    padding: 10px;
+}
+
+#preview {
+    width: 50%;
+    border: 1px solid #ddd;
+    padding: 15px;
+    overflow-y: auto;
+}
+
+button {
+    padding: 10px 20px;
+    margin-top: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Create Post</h1>
+
+<form action="/posts/upload" method="post">
+
+<label>Title</label>
+<input name="title" required>
+
+<label>Slug</label>
+<input name="slug" required>
+
+<label>Tags</label>
+<input name="tags">
+
+<label>Content (Markdown)</label>
+
+<div class="editor-container">
+
+<textarea id="editor" name="content"></textarea>
+
+<div id="preview"></div>
+
+</div>
+
+<button type="submit">Publish</button>
+
+</form>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
+<script>
+const editor = document.getElementById("editor")
+const preview = document.getElementById("preview")
+
+editor.addEventListener("input", () => {
+    preview.innerHTML = DOMPurify.sanitize(marked.parse(editor.value))
+})
+</script>
+
+<script>
+const title = document.querySelector("input[name='title']")
+const slug = document.querySelector("input[name='slug']")
+
+title.addEventListener("input", () => {
+    slug.value = title.value
+        .toLowerCase()
+        .replace(/\s+/g, "-")
+        .replace(/[^\w\-]/g, "")
+})
+
+
+editor.addEventListener("paste", async (event) => {
+
+    const items = event.clipboardData.items
+
+    for (const item of items) {
+
+        if (item.type.startsWith("image/")) {
+
+            event.preventDefault()
+
+            const file = item.getAsFile()
+
+            const formData = new FormData()
+            formData.append("file", file)
+
+            const response = await fetch("/files/upload-image", {
+                method: "POST",
+                body: formData
+            })
+
+            const data = await response.json()
+
+            const markdown = `![image](${data.url})`
+
+            const start = editor.selectionStart
+            const end = editor.selectionEnd
+
+            editor.value =
+                editor.value.substring(0, start) +
+                markdown +
+                editor.value.substring(end)
+
+            editor.dispatchEvent(new Event("input"))
+
+        }
+    }
+})
+</script>
+
+</body>
+</html>

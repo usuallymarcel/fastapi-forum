@@ -23,6 +23,9 @@ def get_post_by_slug(slug: str):
         (slug,)
     ).fetchone()
 
+    if post is None:
+        return None, None, None
+
     html = render_markdown(post["content"])
 
     tags = post["tags"].split(",") if post["tags"] else []

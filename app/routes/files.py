@@ -8,7 +8,6 @@ from fastapi.responses import RedirectResponse, FileResponse
 
 from schemas.posts import Post
 from services.posts import upload_post
-import pathlib
 from PIL import Image
 
 router = APIRouter(prefix="/files")
