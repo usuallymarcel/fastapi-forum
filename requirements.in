@@ -8,3 +8,5 @@ pydantic-settings
 python-dotenv
 pip-tools
 markdown
+pillow
+bleach
