@@ -115,6 +115,10 @@ editor.addEventListener("paste", async (event) => {
 
             const data = await response.json()
 
+            if (!data.url) {
+                alert(JSON.stringify(data))
+            }
+
             const markdown = `![image](${data.url})`
 
             const start = editor.selectionStart
